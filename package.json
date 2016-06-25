@@ -1,0 +1,25 @@
+{
+  "name": "node-red-contrib-docker",
+  "version": "0.1.0",
+  "description": "A node-red node to watch docker events",
+  "author": {
+    "name": "William McGann",
+    "email": "contact@williammcgann.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tehbilly/node-red-contrib-docker"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dockerode": "^2.2.10"
+  },
+  "keywords": [
+    "node-red"
+  ],
+  "node-red": {
+    "nodes": {
+      "docker": "nodes/docker.js"
+    }
+  }
+}
