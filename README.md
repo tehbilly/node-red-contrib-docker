@@ -1,4 +1,4 @@
-# node-red-contrib-docker
+# node-red-contrib-docker-stream
 
 I thought Node-RED was a pretty cool guy. Docker is pretty darn nifty, too. This is the beginnings of
 what should hopefully be a nice collection of nodes to allow for interactions between the two.
@@ -15,7 +15,7 @@ for Node-RED. But it boils down to this:
 
 ```bash
 cd $HOME/.node-red # Or whever your Node-RED user data directory is
-npm install node-red-contrib-docker
+npm install node-red-contrib-docker-stream
 ```
 
 ## Usage

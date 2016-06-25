@@ -1,5 +1,5 @@
 {
-  "name": "node-red-contrib-docker",
+  "name": "node-red-contrib-docker-stream",
   "version": "0.1.0",
   "description": "A node-red node to watch docker events",
   "author": {
