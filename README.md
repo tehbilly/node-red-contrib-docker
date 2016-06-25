@@ -44,4 +44,5 @@ Some things that I know need work.
   - Wait, someone added a new container! I wanna do the same on another daemon but don't have service/swarm set up.
 - [ ] Add filters to event watcher
   - The event stream can be filtered with arguments easily, and would prevent the need to use a filter node or switch.
-  
+- [ ] Add ability to stream logs.
+  - One input node type that maps to a single container, probably.
