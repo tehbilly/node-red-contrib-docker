@@ -1,32 +1,165 @@
+<!-- Docker Engine configuration/connection -->
 <script type="text/javascript">
-    RED.nodes.registerType('docker',{
-        category: 'input',
-        color: '#c0deed',
+    RED.nodes.registerType('docker-engine', {
+        category: 'config',
         defaults: {
-            host: {value:'localhost'},
-            port: {value: 2375, validate: RED.validators.number()}
+            name: {value: ""},
+            host: {value: "localhost", required: true},
+            port: {value: 2375, required: true, validate: RED.validators.number()},
         },
-        inputs:0,
-        outputs:1,
-        icon: 'bridge.png',
         label: function() {
-            return `${this.host}:${this.port}`;
-        },
-        palleteLabel: 'docker'
+            return this.name || this.host+":"+this.port
+        }
     });
 </script>
 
-<script type="text/x-red" data-template-name="docker">
+<script type="text/x-red" data-template-name="docker-engine">
     <div class="form-row">
-        <label for="node-input-host"><i class="icon-server"></i> Docker Host</label>
-        <input type="text" id="node-input-host">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
     </div>
     <div class="form-row">
-        <label for="node-input-port"><i class="icon-sliders"></i> Port</label>
-        <input type="test" id="node-input-port">
+        <label for="node-config-input-host"><i class="icon-bookmark"></i> Host</label>
+        <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="icon-bookmark"></i> Port</label>
+        <input type="text" id="node-config-input-port">
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="docker">
-    <p>Watch a docker daemon for events</p>
+<!-- Docker Engine events -->
+<script type="text/javascript">
+    RED.nodes.registerType('docker-events',{
+        category: 'docker',
+        color: '#c0deed',
+        defaults: {
+            name: {value: ""},
+            topic: {value: ""},
+            engine: {value: "", type: "docker-engine"}
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: 'bridge.png',
+        label: function() {
+            return this.name || this.topic || "Engine Events"
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="docker-events">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-engine"><i class="icon-server"></i> Engine</label>
+        <input type="text" id="node-input-engine">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="docker-events">
+    <p>Register for events from a Docker engine instance.</p>
+</script>
+
+<!-- List Images -->
+<script type="text/javascript">
+    RED.nodes.registerType('docker-images', {
+        category: 'docker',
+        color: '#c0deed',
+        defaults: {
+            name: {value: ""},
+            topic: {value: ""},
+            engine: {value: "", type: "docker-engine"}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'bridge.png',
+        label: function() {
+            return this.name || "Get Images"
+        },
+        paletteLabel: function() {
+            return this.name || "Get Images"
+        }
+    })
+</script>
+
+<script type="text/x-red" data-template-name="docker-images">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-engine"><i class="icon-server"></i> Engine</label>
+        <input type="text" id="node-input-engine">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="docker-images">
+    <p>Get docker images from an engine.</p>
+    <p>Not very useful most likely. Perhaps should be expanded with filters/options.</p>
+</script>
+
+<!-- Actions for running containers -->
+<script type="text/javascript">
+    RED.nodes.registerType('docker-container-action', {
+        category: 'docker',
+        color: '#c0deed',
+        defaults: {
+            name: {value: ""},
+            topic: {value: ""},
+            engine: {value: "", type: "docker-engine", required: true},
+            container: {value: ""},
+            action: {value: ""}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'bridge.png',
+        label: function() {
+            return this.name || "Manage Container"
+        },
+        paletteLabel: function() {
+            return this.name || "Manage Container"
+        }
+    })
+</script>
+
+<script type="text/x-red" data-template-name="docker-container-action">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-engine"><i class="icon-server"></i> Engine</label>
+        <input type="text" id="node-input-engine">
+    </div>
+    <div class="form-row">
+        <label for="node-input-container"><i class="icon-tag"></i> Container</label>
+        <input type="text" id="node-input-container">
+    </div>
+    <div class="form-row">
+        <label for="node-input-action"><i class="fa fa-wrench"></i> Action</label>
+        <!-- TODO: Have default be something akin to 'dynamic', with another field used to specify msg property to use. -->
+        <select type="text" id="node-input-action" style="display: inline-block; vertical-align: top;">
+            <option value="">Use 'msg.action'</option>
+            <option value="start">Start</option>
+            <option value="stop">Stop</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="docker-container-action">
+    <p>Manage a docker container</p>
 </script>
