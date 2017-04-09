@@ -36,12 +36,14 @@ An example flow can be found in `example/`.
 
 Some things that I know need work.
 
-- [ ] Better daemon connection handling. Dockerode should handle this pretty well, but I'd like to test.
+- [x] Better daemon connection handling. Dockerode should handle this pretty well, but I'd like to test.
   - Perhaps in at a config node level? I'd like to put host configuration into a config node anyways.
 - [ ] Node(s) to gather information from daemon.
   - Would be nice to do something like set a delay/trigger on container down, then check status to see if daemon fixed it.
+  - **Currently in progress.** See `dev` branch.
 - [ ] Send commands/actions to daemon.
   - Wait, someone added a new container! I wanna do the same on another daemon but don't have service/swarm set up.
+  - **Currently in progress.** See `dev` branch.
 - [ ] Add filters to event watcher
   - The event stream can be filtered with arguments easily, and would prevent the need to use a filter node or switch.
 - [ ] Add ability to stream logs.
