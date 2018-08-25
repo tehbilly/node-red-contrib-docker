@@ -56,6 +56,10 @@ module.exports = function(RED) {
                 this.status({fill:'yellow',shape:'ring',text:'stream ended'});
                 this.warn('Docker event stream ended.')
             })
+            
+            this.on('close', function() {
+               events.destroy()
+            })
         })
     }
 
