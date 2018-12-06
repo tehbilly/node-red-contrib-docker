@@ -1,0 +1,310 @@
+[
+  {
+    "id": "de9d46fc.b0c4b8",
+    "type": "tab",
+    "label": "Flow 1",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "2b120391.caf80c",
+    "type": "docker",
+    "z": "de9d46fc.b0c4b8",
+    "host": "localhost",
+    "port": 2375,
+    "x": 120,
+    "y": 80,
+    "wires": [
+      [
+        "47ffc629.b762d8"
+      ]
+    ]
+  },
+  {
+    "id": "c39cfc7a.f7a1c",
+    "type": "comment",
+    "z": "de9d46fc.b0c4b8",
+    "name": "docker@host:port",
+    "info": "",
+    "x": 130,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "47ffc629.b762d8",
+    "type": "switch",
+    "z": "de9d46fc.b0c4b8",
+    "name": "event-router",
+    "property": "type",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "container",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "image",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "network",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "volume",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 5,
+    "x": 410,
+    "y": 80,
+    "wires": [
+      [
+        "d4cdd300.ffe288"
+      ],
+      [
+        "2f0e0ae6.5200a6"
+      ],
+      [
+        "12739e15.817f1a"
+      ],
+      [
+        "ad82f415.6901d8"
+      ],
+      [
+        "1949b37e.e089cd"
+      ]
+    ],
+    "inputLabels": [
+      "events"
+    ],
+    "outputLabels": [
+      "container",
+      "image",
+      "network",
+      "volume",
+      "other"
+    ]
+  },
+  {
+    "id": "d4cdd300.ffe288",
+    "type": "function",
+    "z": "de9d46fc.b0c4b8",
+    "name": "container",
+    "func": "msg.payload = `Container '${msg.payload.Actor.Attributes.name}' had action: ${msg.action}`;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 660,
+    "y": 60,
+    "wires": [
+      [
+        "840db531.4ccae"
+      ]
+    ]
+  },
+  {
+    "id": "2f0e0ae6.5200a6",
+    "type": "function",
+    "z": "de9d46fc.b0c4b8",
+    "name": "image",
+    "func": "msg.payload = `Image '${msg.payload.Actor.Attributes.name}' had action: ${msg.action}`;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 650,
+    "y": 100,
+    "wires": [
+      [
+        "71a018c0.e24ed"
+      ]
+    ]
+  },
+  {
+    "id": "12739e15.817f1a",
+    "type": "function",
+    "z": "de9d46fc.b0c4b8",
+    "name": "network",
+    "func": "msg.payload = `Network '${msg.payload.Actor.Attributes.name}' had action: ${msg.action}`;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 660,
+    "y": 140,
+    "wires": [
+      [
+        "cc5ddc77.64f2e"
+      ]
+    ]
+  },
+  {
+    "id": "ad82f415.6901d8",
+    "type": "function",
+    "z": "de9d46fc.b0c4b8",
+    "name": "volume",
+    "func": "msg.payload = `Volume mounted at '${msg.payload.Actor.Attributes.destination}' had action: ${msg.action}`;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 660,
+    "y": 180,
+    "wires": [
+      [
+        "32443d6.fcaa342"
+      ]
+    ]
+  },
+  {
+    "id": "1949b37e.e089cd",
+    "type": "function",
+    "z": "de9d46fc.b0c4b8",
+    "name": "other",
+    "func": "// We don't know what this event is, or don't want to handle it!\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 650,
+    "y": 220,
+    "wires": [
+      [
+        "71cef3b5.1f9254"
+      ]
+    ]
+  },
+  {
+    "id": "840db531.4ccae",
+    "type": "debug",
+    "z": "de9d46fc.b0c4b8",
+    "name": "container-logs",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "x": 840,
+    "y": 60,
+    "wires": []
+  },
+  {
+    "id": "71a018c0.e24ed",
+    "type": "debug",
+    "z": "de9d46fc.b0c4b8",
+    "name": "image-logs",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "x": 830,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "cc5ddc77.64f2e",
+    "type": "debug",
+    "z": "de9d46fc.b0c4b8",
+    "name": "network-logs",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "x": 830,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "32443d6.fcaa342",
+    "type": "debug",
+    "z": "de9d46fc.b0c4b8",
+    "name": "volume-logs",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "x": 830,
+    "y": 180,
+    "wires": []
+  },
+  {
+    "id": "71cef3b5.1f9254",
+    "type": "debug",
+    "z": "de9d46fc.b0c4b8",
+    "name": "other-logs",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "x": 830,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "8bac64bc.cce22",
+    "type": "comment",
+    "z": "de9d46fc.b0c4b8",
+    "name": "Pretend these are useful outputs",
+    "info": "",
+    "x": 890,
+    "y": 20,
+    "wires": []
+  },
+  {
+    "id": "f8af8e27.c48b98",
+    "type": "comment",
+    "z": "de9d46fc.b0c4b8",
+    "name": "You can route events by type",
+    "info": "",
+    "x": 460,
+    "y": 20,
+    "wires": []
+  },
+  {
+    "id": "449de7e4.0b4ad8",
+    "type": "catch",
+    "z": "de9d46fc.b0c4b8",
+    "name": "",
+    "scope": null,
+    "x": 100,
+    "y": 180,
+    "wires": [
+      [
+        "3a3e9dd2.a46d5a"
+      ]
+    ]
+  },
+  {
+    "id": "fd47b5e0.2d878",
+    "type": "status",
+    "z": "de9d46fc.b0c4b8",
+    "name": "",
+    "scope": null,
+    "x": 100,
+    "y": 220,
+    "wires": [
+      [
+        "3a3e9dd2.a46d5a"
+      ]
+    ]
+  },
+  {
+    "id": "3a3e9dd2.a46d5a",
+    "type": "debug",
+    "z": "de9d46fc.b0c4b8",
+    "name": "status-logs",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "x": 270,
+    "y": 200,
+    "wires": []
+  }
+]
